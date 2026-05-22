@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meia Maratona de Lisboa · Piano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F7F6F2;
+  --bg2:#EEECEA;
+  --white:#FFFFFF;
+  --border:#E2E0DC;
+  --border2:#D4D1CC;
+  --text:#1A1A18;
+  --muted:#888480;
+  --muted2:#AAA8A3;
+  --orange:#E8440A;
+  --orange-light:#FF6B35;
+  --orange-bg:#FFF2EE;
+  --blue:#1D4ED8;
+  --blue-bg:#EFF6FF;
+  --teal:#0D7377;
+  --teal-bg:#F0FDFC;
+  --purple:#6D28D9;
+  --purple-bg:#F5F3FF;
+  --green:#15803D;
+  --green-bg:#F0FDF4;
+  --amber:#B45309;
+  --amber-bg:#FFFBEB;
+  --red:#B91C1C;
+  --red-bg:#FEF2F2;
+  --gray:#6B7280;
+  --gray-bg:#F9FAFB;
+  --gold:#92400E;
+  --gold-bg:#FFFBEB;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Space Grotesk',sans-serif;min-height:100vh;}
+
+/* ── HERO ── */
+.hero{
+  background:var(--text);
+  color:white;
+  padding:48px 48px 40px;
+  position:relative;overflow:hidden;
+}
+.hero::after{
+  content:'';position:absolute;right:-60px;top:-60px;
+  width:320px;height:320px;border-radius:50%;
+  background:radial-gradient(circle,rgba(232,68,10,.35) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-top{display:flex;align-items:flex-start;justify-content:space-between;gap:32px;flex-wrap:wrap;}
+.hero-left{flex:1;min-width:260px;}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:'Space Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,255,255,.5);margin-bottom:16px;
+}
+.hero-title{font-size:clamp(30px,5vw,58px);font-weight:800;letter-spacing:-1.5px;line-height:1.0;color:white;}
+.hero-title em{color:var(--orange-light);font-style:normal;}
+.hero-date{font-size:13px;color:rgba(255,255,255,.45);margin-top:8px;font-family:'Space Mono',monospace;letter-spacing:1px;}
+
+/* countdown */
+.countdown{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:16px;padding:20px 24px;min-width:260px;
+}
+.cd-row{display:flex;gap:16px;align-items:flex-start;margin-top:8px;}
+.cd-unit{text-align:center;}
+.cd-num{font-family:'Space Mono',monospace;font-size:clamp(22px,4vw,34px);font-weight:700;color:white;line-height:1;}
+.cd-lbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:3px;}
+.cd-sep{font-size:22px;color:rgba(255,255,255,.2);padding-top:4px;}
+.cd-title{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.35);}
+
+/* targets */
+.targets{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap;}
+.tgt{
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;padding:14px 20px;flex:1;min-width:130px;
+}
+.tgt-lbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);font-family:'Space Mono',monospace;margin-bottom:4px;}
+.tgt-time{font-size:26px;font-weight:800;letter-spacing:-1px;color:white;}
+.tgt-time.b{color:var(--orange-light);}
+.tgt-pace{font-size:12px;color:rgba(255,255,255,.4);margin-top:2px;}
+
+/* today banner */
+.today-banner{
+  background:var(--orange);color:white;
+  padding:14px 48px;
+  display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+}
+.today-banner.hidden{display:none;}
+.tb-dot{width:8px;height:8px;background:white;border-radius:50%;animation:pulse2 1.5s infinite;}
+@keyframes pulse2{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+.tb-text{font-size:14px;font-weight:700;}
+.tb-sub{font-size:13px;opacity:.8;}
+
+/* ── PHASE BAR ── */
+.section-wrap{max-width:1120px;margin:0 auto;padding:0 48px;}
+.phasebar{display:flex;gap:2px;margin:28px 0 0;border-radius:10px;overflow:hidden;}
+.pb{
+  padding:9px 0;text-align:center;cursor:pointer;
+  font-family:'Space Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;
+  font-weight:700;color:rgba(0,0,0,.55);transition:filter .15s;
+}
+.pb:hover{filter:brightness(.88);}
+.pb.p1{background:#FF8C42;flex:3;}
+.pb.p2{background:#FBBF24;flex:1;}
+.pb.p3{background:#3B82F6;color:rgba(255,255,255,.8);flex:10;}
+.pb.p4{background:#22C55E;flex:1;}
+.pb.p5{background:#F59E0B;flex:1;}
+
+/* ── WEEK TABS ── */
+.tabs-wrap{overflow-x:auto;scrollbar-width:none;margin-top:20px;padding-bottom:0;border-bottom:2px solid var(--border);}
+.tabs-wrap::-webkit-scrollbar{display:none;}
+.tabs{display:flex;gap:2px;white-space:nowrap;}
+.tab{
+  padding:9px 15px;font-size:12px;font-weight:600;
+  border:none;background:transparent;cursor:pointer;color:var(--muted);
+  border-radius:6px 6px 0 0;transition:all .15s;
+  font-family:'Space Grotesk',sans-serif;position:relative;
+}
+.tab:hover{color:var(--text);background:var(--bg2);}
+.tab.active{color:var(--text);background:var(--white);box-shadow:0 -2px 0 var(--orange) inset;}
+.tab .tab-dot{
+  display:inline-block;width:5px;height:5px;border-radius:50%;
+  margin-right:5px;vertical-align:middle;margin-bottom:1px;
+}
+
+/* ── WEEK CONTENT ── */
+.week-content{background:var(--white);border:1px solid var(--border);border-top:none;border-radius:0 0 16px 16px;padding:28px;}
+.week-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
+.week-num{font-size:20px;font-weight:800;letter-spacing:-0.5px;}
+.week-progress{flex:1;max-width:200px;}
+.week-progress-bar{height:4px;background:var(--bg2);border-radius:2px;margin-top:6px;}
+.week-progress-fill{height:100%;border-radius:2px;background:var(--orange);transition:width .4s;}
+.phase-pill{
+  font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;
+  padding:4px 12px;border-radius:20px;font-weight:700;
+}
+
+.days-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;}
+@media(max-width:900px){.days-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:480px){.days-grid{grid-template-columns:1fr;}}
+
+/* ── DAY CARD ── */
+.dc{
+  border:1.5px solid var(--border);border-radius:12px;padding:14px;
+  display:flex;flex-direction:column;gap:8px;background:var(--white);
+  transition:box-shadow .15s, border-color .15s;
+  position:relative;
+}
+.dc:hover{box-shadow:0 4px 16px rgba(0,0,0,.07);border-color:var(--border2);}
+.dc.is-past{background:var(--bg);opacity:.65;}
+.dc.is-rest{background:var(--bg);}
+.dc.is-today{
+  border-color:var(--orange) !important;
+  box-shadow:0 0 0 3px rgba(232,68,10,.12), 0 4px 16px rgba(232,68,10,.1) !important;
+  background:var(--white) !important;
+  opacity:1 !important;
+}
+.dc.is-race{border-color:var(--amber) !important;background:var(--amber-bg) !important;}
+.today-pin{
+  position:absolute;top:-1px;left:50%;transform:translateX(-50%);
+  background:var(--orange);color:white;
+  font-family:'Space Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;
+  padding:2px 8px;border-radius:0 0 6px 6px;font-weight:700;
+}
+.done-check{
+  position:absolute;top:10px;right:10px;
+  width:18px;height:18px;border-radius:50%;
+  background:var(--green);display:flex;align-items:center;justify-content:center;
+  font-size:10px;color:white;
+}
+.dc-meta{display:flex;align-items:center;justify-content:space-between;}
+.dc-day{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+.dc-date{font-size:11px;color:var(--muted2);}
+.type-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  padding:3px 8px;border-radius:20px;
+}
+.dc-workout{font-size:13px;font-weight:700;line-height:1.35;color:var(--text);flex:1;}
+.dc-notes{font-size:11px;color:var(--muted);line-height:1.4;border-top:1px solid var(--border);padding-top:7px;}
+
+/* type styles */
+.t-rest  {color:var(--gray);background:var(--gray-bg);}
+.t-easy  {color:var(--blue);background:var(--blue-bg);}
+.t-medium{color:var(--teal);background:var(--teal-bg);}
+.t-interval{color:var(--red);background:var(--red-bg);}
+.t-fartlek{color:var(--amber);background:var(--amber-bg);}
+.t-hill  {color:var(--green);background:var(--green-bg);}
+.t-long  {color:var(--purple);background:var(--purple-bg);}
+.t-race_pace{color:var(--orange);background:var(--orange-bg);}
+.t-race  {color:var(--gold);background:var(--gold-bg);}
+
+/* ── PACE LEGEND ── */
+.pace-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:10px;margin-top:28px;
+}
+.pl{
+  background:var(--white);border:1px solid var(--border);border-radius:12px;padding:14px 16px;
+}
+.pl-lbl{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.pl-row{display:flex;gap:16px;flex-wrap:wrap;}
+.pl-item{}
+.pl-pace{font-size:17px;font-weight:800;letter-spacing:-0.5px;}
+.pl-target{font-size:10px;color:var(--muted);margin-top:1px;}
+
+.footer{
+  border-top:1px solid var(--border);padding:20px 48px;text-align:center;
+  font-family:'Space Mono',monospace;font-size:10px;letter-spacing:2px;
+  color:var(--muted2);text-transform:uppercase;margin-top:40px;
+}
+
+.section-title{
+  font-family:'Space Mono',monospace;font-size:9px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--muted);margin-bottom:0;padding-top:28px;
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div style="max-width:1120px;margin:0 auto;">
+    <div class="hero-top">
+      <div class="hero-left">
+        <div class="hero-badge">🇵🇹 Lisbona · 11 Ottobre 2026</div>
+        <div class="hero-title">Hyundai Meia<br>Maratona de <em>Lisboa</em></div>
+        <div class="hero-date">21,097 km · Preparazione 16 settimane</div>
+        <div class="targets">
+          <div class="tgt">
+            <div class="tgt-lbl">Obiettivo A</div>
+            <div class="tgt-time">Sub 1:42</div>
+            <div class="tgt-pace">4:49 / km</div>
+          </div>
+          <div class="tgt">
+            <div class="tgt-lbl">Obiettivo B</div>
+            <div class="tgt-time b">Sub 1:40</div>
+            <div class="tgt-pace">4:44 / km</div>
+          </div>
+        </div>
+      </div>
+      <div class="countdown">
+        <div class="cd-title">⏱ alla partenza</div>
+        <div class="cd-row">
+          <div class="cd-unit"><div class="cd-num" id="cd-d">—</div><div class="cd-lbl">giorni</div></div>
+          <div class="cd-sep">:</div>
+          <div class="cd-unit"><div class="cd-num" id="cd-h">—</div><div class="cd-lbl">ore</div></div>
+          <div class="cd-sep">:</div>
+          <div class="cd-unit"><div class="cd-num" id="cd-m">—</div><div class="cd-lbl">min</div></div>
+          <div class="cd-sep">:</div>
+          <div class="cd-unit"><div class="cd-num" id="cd-s">—</div><div class="cd-lbl">sec</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TODAY BANNER -->
+<div class="today-banner hidden" id="todayBanner">
+  <div class="tb-dot"></div>
+  <div>
+    <div class="tb-text" id="tbText">Oggi: —</div>
+    <div class="tb-sub" id="tbSub"></div>
+  </div>
+</div>
+
+<div class="section-wrap" style="padding-top:0;">
+
+  <div class="section-title">Fasi di preparazione</div>
+  <div class="phasebar">
+    <div class="pb p1" onclick="goToWeek(1)" title="Settimane 1–3">Potenziamento</div>
+    <div class="pb p2" onclick="goToWeek(4)" title="Settimana 4">Scarico</div>
+    <div class="pb p3" onclick="goToWeek(5)" title="Settimane 5–14">Specifica</div>
+    <div class="pb p4" onclick="goToWeek(15)" title="Settimana 15">Tapering</div>
+    <div class="pb p5" onclick="goToWeek(16)" title="Settimana 16">Gara</div>
+  </div>
+
+  <div class="section-title" style="padding-top:24px;">Settimane</div>
+  <div class="tabs-wrap"><div class="tabs" id="tabsRow"></div></div>
+  <div class="week-content">
+    <div class="week-head">
+      <div class="week-num" id="weekTitle"></div>
+      <div class="week-progress">
+        <div style="font-size:11px;color:var(--muted);" id="progressLabel"></div>
+        <div class="week-progress-bar"><div class="week-progress-fill" id="progressFill"></div></div>
+      </div>
+      <div class="phase-pill" id="phaseTag"></div>
+    </div>
+    <div class="days-grid" id="daysGrid"></div>
+  </div>
+
+  <div class="section-title">Riferimento passi</div>
+  <div class="pace-grid">
+    <div class="pl">
+      <div class="pl-lbl" style="color:var(--red);">🔴 Ripetute / Intervalli</div>
+      <div class="pl-row">
+        <div class="pl-item"><div class="pl-pace" style="color:var(--red);">4:20–4:42</div><div class="pl-target">/ km</div></div>
+      </div>
+    </div>
+    <div class="pl">
+      <div class="pl-lbl" style="color:var(--purple);">🟣 Lungo / Progressivo</div>
+      <div class="pl-row">
+        <div class="pl-item"><div class="pl-pace" style="color:var(--purple);">5:40–5:50</div><div class="pl-target">Z2 · finale 4:49</div></div>
+      </div>
+    </div>
+    <div class="pl">
+      <div class="pl-lbl" style="color:var(--blue);">🔵 Corsa Lenta Z2</div>
+      <div class="pl-row">
+        <div class="pl-item"><div class="pl-pace" style="color:var(--blue);">5:45–5:55</div><div class="pl-target">/ km</div></div>
+      </div>
+    </div>
+    <div class="pl">
+      <div class="pl-lbl" style="color:var(--teal);">🩵 Corsa Media (Soglia)</div>
+      <div class="pl-row">
+        <div class="pl-item"><div class="pl-pace" style="color:var(--teal);">5:00–5:05</div><div class="pl-target">Sub 1:42</div></div>
+        <div class="pl-item"><div class="pl-pace" style="color:var(--teal);">4:50–4:55</div><div class="pl-target">Sub 1:40</div></div>
+      </div>
+    </div>
+    <div class="pl">
+      <div class="pl-lbl" style="color:var(--orange);">🟠 Ritmo Gara</div>
+      <div class="pl-row">
+        <div class="pl-item"><div class="pl-pace" style="color:var(--orange);">4:49</div><div class="pl-target">Sub 1:42</div></div>
+        <div class="pl-item"><div class="pl-pace" style="color:var(--orange);">4:44</div><div class="pl-target">Sub 1:40</div></div>
+      </div>
+    </div>
+    <div class="pl">
+      <div class="pl-lbl" style="color:var(--green);">🟢 Scatti in salita</div>
+      <div class="pl-row">
+        <div class="pl-item"><div class="pl-pace" style="color:var(--green);">Massimale</div><div class="pl-target">60–80m, rec. camminando</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">Hyundai Meia Maratona de Lisboa · 11 Ottobre 2026 · Sub 1:42:00</div>
+
+<script>
+const WEEKS = {
+  "1": {
+    "phase": "Potenziamento",
+    "days": [
+      {
+        "day": "Lun",
+        "date": "22 Giu",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Mar",
+        "date": "23 Giu",
+        "type": "hill",
+        "workout": "20' CL + 10× scatti in salita (60-80m)",
+        "notes": "Recupero camminando in discesa"
+      },
+      {
+        "day": "Mer",
+        "date": "24 Giu",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Gio",
+        "date": "25 Giu",
+        "type": "easy",
+        "workout": "8 km Corsa Lenta (Z2)",
+        "notes": "5:45-5:55/km"
+      },
+      {
+        "day": "Ven",
+        "date": "26 Giu",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Sab",
+        "date": "27 Giu",
+        "type": "fartlek",
+        "workout": "15' CL + 12× (1' Veloce / 1' Lento)",
+        "notes": "Fartlek dinamico per il ritmo"
+      },
+      {
+        "day": "Dom",
+        "date": "28 Giu",
+        "type": "long",
+        "workout": "14 km Corsa Lenta (Z2)",
+        "notes": "Passo costante 5:45/km"
+      }
+    ]
+  },
+  "2": {
+    "phase": "Potenziamento",
+    "days": [
+      {
+        "day": "Lun",
+        "date": "29 Giu",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Mar",
+        "date": "30 Giu",
+        "type": "hill",
+        "workout": "20' CL + 12× scatti in salita (60-80m)",
+        "notes": "Aumento del volume muscolare"
+      },
+      {
+        "day": "Mer",
+        "date": "1 Lug",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Gio",
+        "date": "2 Lug",
+        "type": "easy",
+        "workout": "9 km Corsa Lenta (Z2)",
+        "notes": "Rigenerante"
+      },
+      {
+        "day": "Ven",
+        "date": "3 Lug",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Sab",
+        "date": "4 Lug",
+        "type": "fartlek",
+        "workout": "15' CL + 14× (1' Veloce / 1' Lento)",
+        "notes": "Fartlek"
+      },
+      {
+        "day": "Dom",
+        "date": "5 Lug",
+        "type": "long",
+        "workout": "14 km Corsa Lenta (Z2)",
+        "notes": "Passo costante 5:45/km"
+      }
+    ]
+  },
+  "3": {
+    "phase": "Potenziamento",
+    "days": [
+      {
+        "day": "Lun",
+        "date": "6 Lug",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Mar",
+        "date": "7 Lug",
+        "type": "hill",
+        "workout": "20' CL + 12× scatti in salita (60-80m)",
+        "notes": "Ultimo carico di forza"
+      },
+      {
+        "day": "Mer",
+        "date": "8 Lug",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Gio",
+        "date": "9 Lug",
+        "type": "easy",
+        "workout": "8 km Corsa Lenta (Z2)",
+        "notes": "Sciogliere le gambe"
+      },
+      {
+        "day": "Ven",
+        "date": "10 Lug",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Sab",
+        "date": "11 Lug",
+        "type": "fartlek",
+        "workout": "15' CL + 16× (1' Veloce / 1' Lento)",
+        "notes": "Massimo picco di fartlek"
+      },
+      {
+        "day": "Dom",
+        "date": "12 Lug",
+        "type": "long",
+        "workout": "16 km Corsa Lenta (Z2)",
+        "notes": "Distanza massima del blocco"
+      }
+    ]
+  },
+  "4": {
+    "phase": "Scarico",
+    "days": [
+      {
+        "day": "Lun",
+        "date": "13 Lug",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Mar",
+        "date": "14 Lug",
+        "type": "hill",
+        "workout": "20' CL + 6× scatti in salita",
+        "notes": "Dimezzato per scaricare"
+      },
+      {
+        "day": "Mer",
+        "date": "15 Lug",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Gio",
+        "date": "16 Lug",
+        "type": "easy",
+        "workout": "7 km Corsa Lenta (Z2)",
+        "notes": "Molto blanda"
+      },
+      {
+        "day": "Ven",
+        "date": "17 Lug",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Sab",
+        "date": "18 Lug",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Supercompensazione prima della specifica"
+      },
+      {
+        "day": "Dom",
+        "date": "19 Lug",
+        "type": "easy",
+        "workout": "10 km Corsa Lenta (Z2)",
+        "notes": "Rigenerante pura"
+      }
+    ]
+  },
+  "5": {
+    "phase": "Specifica",
+    "days": [
+      {
+        "day": "Lun",
+        "date": "20 Lug",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Inizio tabella mezza maratona"
+      },
+      {
+        "day": "Mar",
+        "date": "21 Lug",
+        "type": "interval",
+        "workout": "6× 800m (Rec. 400m CL)",
+        "notes": "4:25/km (Sub 1:42) · 4:20/km (Sub 1:40)"
+      },
+      {
+        "day": "Mer",
+        "date": "22 Lug",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Gio",
+        "date": "23 Lug",
+        "type": "easy",
+        "workout": "8 km Corsa Lenta (Z2) + 4× allunghi 100m",
+        "notes": "Fondo lento · allunghi finali"
+      },
+      {
+        "day": "Ven",
+        "date": "24 Lug",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Sab",
+        "date": "25 Lug",
+        "type": "medium",
+        "workout": "7 km Corsa Media",
+        "notes": "5:05/km (Sub 1:42) · 4:55/km (Sub 1:40)"
+      },
+      {
+        "day": "Dom",
+        "date": "26 Lug",
+        "type": "long",
+        "workout": "12 km Lungo Progressivo",
+        "notes": "9 km CL + 3 km a Ritmo Gara (4:49 | 4:44)"
+      }
+    ]
+  },
+  "6": {
+    "phase": "Specifica",
+    "days": [
+      {
+        "day": "Lun",
+        "date": "27 Lug",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Mar",
+        "date": "28 Lug",
+        "type": "interval",
+        "workout": "3× 2000m (Rec. 3' da fermo)",
+        "notes": "4:40/km (Sub 1:42) · 4:35/km (Sub 1:40)"
+      },
+      {
+        "day": "Mer",
+        "date": "29 Lug",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Gio",
+        "date": "30 Lug",
+        "type": "easy",
+        "workout": "9 km Corsa Lenta (Z2) + 4× allunghi 100m",
+        "notes": "Fondo lento"
+      },
+      {
+        "day": "Ven",
+        "date": "31 Lug",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Sab",
+        "date": "1 Ago",
+        "type": "medium",
+        "workout": "8 km Corsa Media",
+        "notes": "5:05/km (Sub 1:42) · 4:55/km (Sub 1:40)"
+      },
+      {
+        "day": "Dom",
+        "date": "2 Ago",
+        "type": "long",
+        "workout": "14 km Corsa Lenta Svelta",
+        "notes": "Passo costante 5:40-5:45/km"
+      }
+    ]
+  },
+  "7": {
+    "phase": "Specifica",
+    "days": [
+      {
+        "day": "Lun",
+        "date": "3 Ago",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Mar",
+        "date": "4 Ago",
+        "type": "interval",
+        "workout": "6× 1000m (Rec. 500m CL)",
+        "notes": "4:35/km (Sub 1:42) · 4:28/km (Sub 1:40)"
+      },
+      {
+        "day": "Mer",
+        "date": "5 Ago",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Gio",
+        "date": "6 Ago",
+        "type": "easy",
+        "workout": "8 km Corsa Lenta (Z2) + 4× allunghi 100m",
+        "notes": "Fondo lento"
+      },
+      {
+        "day": "Ven",
+        "date": "7 Ago",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Sab",
+        "date": "8 Ago",
+        "type": "medium",
+        "workout": "9 km Corsa Media",
+        "notes": "5:05/km (Sub 1:42) · 4:55/km (Sub 1:40)"
+      },
+      {
+        "day": "Dom",
+        "date": "9 Ago",
+        "type": "long",
+        "workout": "15 km Lungo con variazioni",
+        "notes": "3× 1km a Ritmo Gara staccati da 3km CL"
+      }
+    ]
+  },
+  "8": {
+    "phase": "Scarico",
+    "days": [
+      {
+        "day": "Lun",
+        "date": "10 Ago",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Settimana di assimilazione"
+      },
+      {
+        "day": "Mar",
+        "date": "11 Ago",
+        "type": "fartlek",
+        "workout": "20' CL + 10× (1' veloce / 1' lento)",
+        "notes": "Senza ansia da cronometro"
+      },
+      {
+        "day": "Mer",
+        "date": "12 Ago",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Gio",
+        "date": "13 Ago",
+        "type": "easy",
+        "workout": "7 km Corsa Lenta (Z2)",
+        "notes": "Blandissima"
+      },
+      {
+        "day": "Ven",
+        "date": "14 Ago",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Sab",
+        "date": "15 Ago",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Ferragosto — riposo muscolare"
+      },
+      {
+        "day": "Dom",
+        "date": "16 Ago",
+        "type": "easy",
+        "workout": "12 km Corsa Lenta Rigenerante",
+        "notes": "Zona 2 pura"
+      }
+    ]
+  },
+  "9": {
+    "phase": "Specifica",
+    "days": [
+      {
+        "day": "Lun",
+        "date": "17 Ago",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Inizio secondo blocco specifico"
+      },
+      {
+        "day": "Mar",
+        "date": "18 Ago",
+        "type": "interval",
+        "workout": "8× 800m (Rec. 400m CL)",
+        "notes": "4:25/km (Sub 1:42) · 4:20/km (Sub 1:40)"
+      },
+      {
+        "day": "Mer",
+        "date": "19 Ago",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Gio",
+        "date": "20 Ago",
+        "type": "easy",
+        "workout": "10 km Corsa Lenta (Z2) + 4× allunghi 100m",
+        "notes": "Aumento chilometraggio"
+      },
+      {
+        "day": "Ven",
+        "date": "21 Ago",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Sab",
+        "date": "22 Ago",
+        "type": "medium",
+        "workout": "10 km Corsa Media",
+        "notes": "5:00/km (Sub 1:42) · 4:40-4:50/km (Sub 1:40)"
+      },
+      {
+        "day": "Dom",
+        "date": "23 Ago",
+        "type": "long",
+        "workout": "16 km Lungo Progressivo",
+        "notes": "12 km a 5:45 + 4 km finali a Ritmo Gara"
+      }
+    ]
+  },
+  "10": {
+    "phase": "Specifica",
+    "days": [
+      {
+        "day": "Lun",
+        "date": "24 Ago",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Mar",
+        "date": "25 Ago",
+        "type": "interval",
+        "workout": "4× 2000m (Rec. 3' da fermo)",
+        "notes": "4:40/km (Sub 1:42) · 4:35/km (Sub 1:40)"
+      },
+      {
+        "day": "Mer",
+        "date": "26 Ago",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Gio",
+        "date": "27 Ago",
+        "type": "easy",
+        "workout": "10 km Corsa Lenta (Z2) + 4× allunghi 100m",
+        "notes": "Fondo lento"
+      },
+      {
+        "day": "Ven",
+        "date": "28 Ago",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Sab",
+        "date": "29 Ago",
+        "type": "race_pace",
+        "workout": "8 km a Ritmo Gara Costante",
+        "notes": "Simulazione passo: 4:49/km (1:42) · 4:44/km (1:40)"
+      },
+      {
+        "day": "Dom",
+        "date": "30 Ago",
+        "type": "long",
+        "workout": "18 km Corsa Lenta di fondo",
+        "notes": "Costruzione della tenuta strutturale"
+      }
+    ]
+  },
+  "11": {
+    "phase": "Picco Volume",
+    "days": [
+      {
+        "day": "Lun",
+        "date": "31 Ago",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Massimo sforzo di volume"
+      },
+      {
+        "day": "Mar",
+        "date": "1 Set",
+        "type": "interval",
+        "workout": "7× 1000m (Rec. 500m CL)",
+        "notes": "4:35/km (Sub 1:42) · 4:28/km (Sub 1:40)"
+      },
+      {
+        "day": "Mer",
+        "date": "2 Set",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Gio",
+        "date": "3 Set",
+        "type": "easy",
+        "workout": "9 km Corsa Lenta (Z2) + 4× allunghi 100m",
+        "notes": "Fondo lento"
+      },
+      {
+        "day": "Ven",
+        "date": "4 Set",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Sab",
+        "date": "5 Set",
+        "type": "medium",
+        "workout": "11 km Corsa Media",
+        "notes": "5:00/km (Sub 1:42) · 4:50/km (Sub 1:40)"
+      },
+      {
+        "day": "Dom",
+        "date": "6 Set",
+        "type": "long",
+        "workout": "16 km Lungo Qualificato",
+        "notes": "10 km CL + 6 km finali a Ritmo Gara"
+      }
+    ]
+  },
+  "12": {
+    "phase": "Scarico",
+    "days": [
+      {
+        "day": "Lun",
+        "date": "7 Set",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Scarico intermedio"
+      },
+      {
+        "day": "Mar",
+        "date": "8 Set",
+        "type": "interval",
+        "workout": "Risc. + 4× 1000m stabili a 4:40/km",
+        "notes": "Lavoro aerobico pulito"
+      },
+      {
+        "day": "Mer",
+        "date": "9 Set",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Gio",
+        "date": "10 Set",
+        "type": "easy",
+        "workout": "8 km Corsa Lenta (Z2)",
+        "notes": "Facile"
+      },
+      {
+        "day": "Ven",
+        "date": "11 Set",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Sab",
+        "date": "12 Set",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Stacco totale per la mente"
+      },
+      {
+        "day": "Dom",
+        "date": "13 Set",
+        "type": "easy",
+        "workout": "14 km Corsa Lenta",
+        "notes": "Passo tranquillo 5:45/km"
+      }
+    ]
+  },
+  "13": {
+    "phase": "Picco Forma",
+    "days": [
+      {
+        "day": "Lun",
+        "date": "14 Set",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Inizio blocco decisivo"
+      },
+      {
+        "day": "Mar",
+        "date": "15 Set",
+        "type": "interval",
+        "workout": "3× 3000m (Rec. 4' camminando)",
+        "notes": "⭐ TEST CHIAVE: 4:42/km (1:42) · 4:35/km (1:40)"
+      },
+      {
+        "day": "Mer",
+        "date": "16 Set",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Gio",
+        "date": "17 Set",
+        "type": "easy",
+        "workout": "10 km Corsa Lenta (Z2) + 5× allunghi 100m",
+        "notes": "Fondo lento"
+      },
+      {
+        "day": "Ven",
+        "date": "18 Set",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Sab",
+        "date": "19 Set",
+        "type": "medium",
+        "workout": "10 km Corsa Media Veloce",
+        "notes": "Target aggressivo: 4:55/km (1:42) · 4:48/km (1:40)"
+      },
+      {
+        "day": "Dom",
+        "date": "20 Set",
+        "type": "long",
+        "workout": "20 km Lungo Massimo",
+        "notes": "15 km CL + 5 km finali a Ritmo Gara"
+      }
+    ]
+  },
+  "14": {
+    "phase": "Richiamo Soglia",
+    "days": [
+      {
+        "day": "Lun",
+        "date": "21 Set",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Ultimo sforzo ad alti volumi"
+      },
+      {
+        "day": "Mar",
+        "date": "22 Set",
+        "type": "interval",
+        "workout": "8× 1000m (Rec. 500m CL)",
+        "notes": "Target esaustivo: 4:35/km · 4:28/km"
+      },
+      {
+        "day": "Mer",
+        "date": "23 Set",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Gio",
+        "date": "24 Set",
+        "type": "easy",
+        "workout": "10 km Corsa Lenta (Z2) + 5× allunghi 100m",
+        "notes": "Fondo lento"
+      },
+      {
+        "day": "Ven",
+        "date": "25 Set",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Sab",
+        "date": "26 Set",
+        "type": "medium",
+        "workout": "12 km Corsa Media estesa",
+        "notes": "Tenuta di ritmo: 5:00/km · 4:50/km"
+      },
+      {
+        "day": "Dom",
+        "date": "27 Set",
+        "type": "easy",
+        "workout": "15 km Corsa Lenta fluida",
+        "notes": "Aggiungere 5 allunghi finali da 100m"
+      }
+    ]
+  },
+  "15": {
+    "phase": "Tapering",
+    "days": [
+      {
+        "day": "Lun",
+        "date": "28 Set",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Inizio riduzione volumi"
+      },
+      {
+        "day": "Mar",
+        "date": "29 Set",
+        "type": "interval",
+        "workout": "Risc. + 5× 1000m RG (Rec. 2' da fermo)",
+        "notes": "Niente acido lattico muscolare"
+      },
+      {
+        "day": "Mer",
+        "date": "30 Set",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Gio",
+        "date": "1 Ott",
+        "type": "easy",
+        "workout": "8 km Corsa Lenta (Z2)",
+        "notes": "Tranquilla"
+      },
+      {
+        "day": "Ven",
+        "date": "2 Ott",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero totale"
+      },
+      {
+        "day": "Sab",
+        "date": "3 Ott",
+        "type": "easy",
+        "workout": "6 km Corsa Lenta + 4 allunghi",
+        "notes": "Sciogliere i muscoli"
+      },
+      {
+        "day": "Dom",
+        "date": "4 Ott",
+        "type": "race_pace",
+        "workout": "12 km con 4 km centrali a Ritmo Gara",
+        "notes": "Mantenimento memoria del passo gara"
+      }
+    ]
+  },
+  "16": {
+    "phase": "Race Week",
+    "days": [
+      {
+        "day": "Lun",
+        "date": "5 Ott",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Settimana della gara"
+      },
+      {
+        "day": "Mar",
+        "date": "6 Ott",
+        "type": "interval",
+        "workout": "Risc. + 3× 1000m a Ritmo Gara",
+        "notes": "Solo attivazione neuro-muscolare"
+      },
+      {
+        "day": "Mer",
+        "date": "7 Ott",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Recupero e sonno"
+      },
+      {
+        "day": "Gio",
+        "date": "8 Ott",
+        "type": "easy",
+        "workout": "6 km Corsa Rigenerante + 4 allunghi",
+        "notes": "Gambe leggere"
+      },
+      {
+        "day": "Ven",
+        "date": "9 Ott",
+        "type": "rest",
+        "workout": "Riposo",
+        "notes": "Giorno di viaggio e riposo"
+      },
+      {
+        "day": "Sab",
+        "date": "10 Ott",
+        "type": "rest",
+        "workout": "Riposo totale",
+        "notes": "Carico carboidrati e idratazione"
+      },
+      {
+        "day": "Dom",
+        "date": "11 Ott",
+        "type": "race",
+        "workout": "🏁 HYUNDAI MEIA MARATONA DE LISBOA",
+        "notes": "Sub 1:42:00 (4:49/km) · Sub 1:40:00 (4:44/km)"
+      }
+    ]
+  }
+};
+
+const MONTHS = {'Giu':5,'Lug':6,'Ago':7,'Set':8,'Ott':9};
+const PHASE_COLORS = {
+  'Potenziamento':['#FF8C42','#FFF4EE'],
+  'Scarico':['#D97706','#FFFBEB'],
+  'Specifica':['#1D4ED8','#EFF6FF'],
+  'Picco Volume':['#1E40AF','#EFF6FF'],
+  'Picco Forma':['#6D28D9','#F5F3FF'],
+  'Richiamo Soglia':['#5B21B6','#F5F3FF'],
+  'Tapering':['#15803D','#F0FDF4'],
+  'Race Week':['#92400E','#FFFBEB'],
+};
+const PHASE_DOTS = {
+  'Potenziamento':'#FF8C42','Scarico':'#FBBF24',
+  'Specifica':'#3B82F6','Picco Volume':'#1D4ED8',
+  'Picco Forma':'#7C3AED','Richiamo Soglia':'#6D28D9',
+  'Tapering':'#22C55E','Race Week':'#F59E0B',
+};
+const TYPE_META = {
+  rest:{label:'Riposo',cls:'t-rest'},
+  easy:{label:'Z2 Lento',cls:'t-easy'},
+  medium:{label:'Soglia',cls:'t-medium'},
+  interval:{label:'Ripetute',cls:'t-interval'},
+  fartlek:{label:'Fartlek',cls:'t-fartlek'},
+  hill:{label:'Salita',cls:'t-hill'},
+  long:{label:'Lungo',cls:'t-long'},
+  race_pace:{label:'Ritmo Gara',cls:'t-race_pace'},
+  race:{label:'🏁 GARA',cls:'t-race'},
+};
+
+let currentWeek = 1;
+let todayWeek = null, todayDate = null;
+
+function parseDate(s) {
+  const [d,m] = s.split(' ');
+  return new Date(2026, MONTHS[m], parseInt(d));
+}
+
+function findToday() {
+  const now = new Date(); now.setHours(0,0,0,0);
+  for (const [wn, wd] of Object.entries(WEEKS)) {
+    for (const day of wd.days) {
+      const d = parseDate(day.date);
+      if (d.getTime() === now.getTime()) {
+        return { week: parseInt(wn), date: day.date, day: day };
+      }
+    }
+  }
+  // If before plan start, return week 1
+  const planStart = parseDate('22 Giu');
+  if (now < planStart) return { week: 1, date: null, day: null };
+  // If after plan end, return week 16
+  return { week: 16, date: null, day: null };
+}
+
+function isDayPast(dateStr) {
+  const now = new Date(); now.setHours(0,0,0,0);
+  return parseDate(dateStr) < now;
+}
+function isDayToday(dateStr) {
+  const now = new Date(); now.setHours(0,0,0,0);
+  return parseDate(dateStr).getTime() === now.getTime();
+}
+
+// Overall plan progress
+function planProgress() {
+  const now = new Date(); now.setHours(0,0,0,0);
+  const start = parseDate('22 Giu');
+  const end = parseDate('11 Ott');
+  if (now < start) return 0;
+  if (now > end) return 100;
+  return Math.round((now - start) / (end - start) * 100);
+}
+
+function goToWeek(n) {
+  currentWeek = n;
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', parseInt(t.dataset.week) === n));
+  renderWeek(n);
+  const tab = document.querySelector(`.tab[data-week="${n}"]`);
+  if (tab) tab.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});
+  // Scroll to week content
+  document.querySelector('.week-content').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function renderWeek(n) {
+  const data = WEEKS[n];
+  const phase = data.phase;
+  const [pc,pbg] = PHASE_COLORS[phase] || ['#888','#f5f5f5'];
+
+  document.getElementById('weekTitle').textContent = `Settimana ${n} · di 16`;
+
+  // Progress within plan
+  const prog = planProgress();
+  document.getElementById('progressLabel').textContent = `Avanzamento piano: ${prog}%`;
+  document.getElementById('progressFill').style.width = prog + '%';
+
+  const tag = document.getElementById('phaseTag');
+  tag.textContent = phase;
+  tag.style.background = pbg;
+  tag.style.color = pc;
+  tag.style.border = `1px solid ${pc}44`;
+
+  const grid = document.getElementById('daysGrid');
+  grid.innerHTML = data.days.map(d => {
+    const tm = TYPE_META[d.type] || TYPE_META.rest;
+    const isPast = isDayPast(d.date);
+    const isToday = isDayToday(d.date);
+    const isRest = d.type === 'rest';
+    const isRace = d.type === 'race';
+    const cls = [
+      'dc',
+      isPast && !isToday ? 'is-past' : '',
+      isToday ? 'is-today' : '',
+      isRest && !isToday ? 'is-rest' : '',
+      isRace ? 'is-race' : '',
+    ].filter(Boolean).join(' ');
+
+    return `<div class="${cls}">
+      ${isToday ? '<div class="today-pin">OGGI</div>' : ''}
+      ${isPast && !isToday && !isRest ? '<div class="done-check">✓</div>' : ''}
+      <div class="dc-meta">
+        <span class="dc-day">${d.day}</span>
+        <span class="dc-date">${d.date}</span>
+      </div>
+      <span class="type-badge ${tm.cls}">${tm.label}</span>
+      <div class="dc-workout">${d.workout}</div>
+      ${d.notes && d.notes !== 'Recupero totale' ? `<div class="dc-notes">${d.notes}</div>` : ''}
+    </div>`;
+  }).join('');
+
+  // Scroll to today's card after render
+  if (todayWeek === n) {
+    setTimeout(() => {
+      const todayCard = grid.querySelector('.is-today');
+      if (todayCard) todayCard.scrollIntoView({behavior:'smooth',block:'nearest'});
+    }, 150);
+  }
+}
+
+function initTabs() {
+  const row = document.getElementById('tabsRow');
+  row.innerHTML = Object.keys(WEEKS).map(n => {
+    const phase = WEEKS[n].phase;
+    const dot = PHASE_DOTS[phase] || '#888';
+    return `<button class="tab" data-week="${n}" onclick="goToWeek(${n})">
+      <span class="tab-dot" style="background:${dot}"></span>
+      ${n <= 9 ? 'S0'+n : 'S'+n}
+    </button>`;
+  }).join('');
+}
+
+function countdown() {
+  const race = new Date('2026-10-11T08:00:00');
+  function tick() {
+    const diff = race - new Date();
+    if (diff <= 0) { document.getElementById('cd-d').textContent='🏁'; return; }
+    const d = Math.floor(diff/86400000);
+    const h = Math.floor((diff%86400000)/3600000);
+    const m = Math.floor((diff%3600000)/60000);
+    const s = Math.floor((diff%60000)/1000);
+    document.getElementById('cd-d').textContent = String(d);
+    document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
+    document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
+    document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
+  }
+  tick(); setInterval(tick,1000);
+}
+
+function initTodayBanner(info) {
+  const banner = document.getElementById('todayBanner');
+  if (info.day) {
+    banner.classList.remove('hidden');
+    const tm = TYPE_META[info.day.type] || TYPE_META.rest;
+    document.getElementById('tbText').textContent = `Oggi (${info.day.date}): ${info.day.workout}`;
+    document.getElementById('tbSub').textContent = info.day.notes || '';
+  }
+}
+
+// Init
+initTabs();
+const todayInfo = findToday();
+todayWeek = todayInfo.week;
+todayDate = todayInfo.date;
+initTodayBanner(todayInfo);
+goToWeek(todayInfo.week);
+countdown();
+</script>
+</body>
+</html>
